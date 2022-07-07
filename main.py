@@ -25,7 +25,12 @@ driver.switch_to.default_content()
 WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR,"iframe[title='o desafio reCAPTCHA expira em dois minutos']")))
 WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button#recaptcha-audio-button"))).click()
 
+
+src=WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CSS_SELECTOR, "a.rc-audiochallenge-tdownload-link"))).click() #text
+
 # get the mp3 audio file
-src = driver.find_element(By.ID, "audio-source").get_attribute("src")
-urllib.request.urlretrieve(src, "src.mp3")
+#src = driver.find_element(By.ID, "audio-source").get_attribute("src")
+#urllib.request.urlretrieve(src, "src.mp3")
 print(src)
+
