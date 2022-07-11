@@ -29,6 +29,12 @@ WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "bu
 src=WebDriverWait(driver, 10).until(
     EC.element_to_be_clickable((By.CSS_SELECTOR, "a.rc-audiochallenge-tdownload-link"))).click() #text
 
+time.sleep(15)
+
+#This does not work, it can't locate the src
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "audio-source")))
+#Src_URL = driver.find_element_by_id('audio-source').get_attribute('src')
+
 # get the mp3 audio file
 #src = driver.find_element(By.ID, "audio-source").get_attribute("src")
 #urllib.request.urlretrieve(src, "src.mp3")

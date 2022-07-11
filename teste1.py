@@ -16,7 +16,6 @@ option.add_argument('--disable-notifications')
 option.add_argument("--mute-audio")
 # option.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 option.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
-
 def audioToText(mp3Path):
     print("1")
     driver.execute_script('''window.open("","_blank");''')
@@ -85,19 +84,19 @@ if audioBtnFound:
             saveFile(response,filename)
             response = audioToText(os.getcwd() + '/' + filename)
             print(response)
-driver.switch_to.default_content()
+            driver.switch_to.default_content()
             iframe = driver.find_elements_by_tag_name('iframe')[audioBtnIndex]
             driver.switch_to.frame(iframe)
-inputbtn = driver.find_element_by_id('audio-response')
+            inputbtn = driver.find_element_by_id('audio-response')
             inputbtn.send_keys(response)
             inputbtn.send_keys(Keys.ENTER)
-time.sleep(2)
+            time.sleep(2)
             errorMsg = driver.find_elements_by_class_name('rc-audiochallenge-error-message')[0]
-if errorMsg.text == "" or errorMsg.value_of_css_property('display') == 'none':
+            if errorMsg.text == "" or errorMsg.value_of_css_property('display') == 'none':
                 print("Success")
                 break
-except Exception as e:
-        print(e)
-        print('Caught. Need to change proxy now')
+    except Exception as e:
+            print(e)
+            print('Caught. Need to change proxy now')
 else:
     print('Button not found. This should not happen.')
