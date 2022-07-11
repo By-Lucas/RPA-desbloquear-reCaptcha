@@ -76,6 +76,7 @@ for index in range(len(allIframesLen)):
         break
     except Exception as e:
         pass
+
 if audioBtnFound:
     try:
         while True:
