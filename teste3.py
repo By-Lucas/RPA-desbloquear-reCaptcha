@@ -51,3 +51,29 @@ delay()
 
 #Click on the play buttom
 driver.find_element(By.XPATH, "/html/body/div/div/div[3]/div/button").click()
+
+#get the mp3 audio file
+src = driver.find_element(By.ID,"audio-source").get_attribute("src")
+print("[INFO] Audio src: %s"%src)
+
+#download the mp3 audio file from the souce
+urllib.request.urlretrieve(src, os.getcwd()+"\\sample.mp3")
+sound = pydub.AudioSegment.from_mp3(os.getcwd+"\\sample.mp3")
+sound.export(os.getcwd()+"\\sample.wav", format="wav")
+sample_audio = sr.AudioFile(os.getcwd()+"\\sample.wav")
+r = sr.Recognizer()
+with sample_audio as source:
+    audio = r.record(source)
+
+#translat audio to text with google voice recognition
+key = r.recognize_google(audio)
+print("[INFO] Recaptcha passcode: %s" %key)
+
+# key in results and submit
+delay()
+driver.find_element(By.ID,"audio-response").send_keys(key.lower())
+driver.find_element(By.ID,"audio-response").send_keys(Keys.ENTER)
+time.sleep(5)
+driver.switch_to.default_content()
+time.sleep(5)
+driver.find_element(By.ID,"recaptcha-demo-submit").click()
