@@ -1,23 +1,29 @@
-from selenium.webdriver.common.keys import Keys
-
 # recaptcha libraries
 import speech_recognition as sr
+import pydub
 import urllib
 # import pydub
 import urllib.request
 
+import random
+import os
 import time
 
+from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+
+def delay():
+    time.sleep(random.dandint(2,3))
+
 options = webdriver.ChromeOptions() 
 options.add_argument("start-maximized")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
-driver = webdriver.Chrome(options=options, executable_path=r'chrome_driver/chromedriver.exe')
+driver = webdriver.Chrome(options=options, executable_path=os.getcwd()+'\\chrome_driver\\chromedriver.exe')
 driver.get("https://www.google.com/recaptcha/api2/demo")
 WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR,"iframe[src^='https://www.google.com/recaptcha/api2/anchor']")))
 WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span#recaptcha-anchor"))).click()
