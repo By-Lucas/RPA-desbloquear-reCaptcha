@@ -1,22 +1,27 @@
-import wave
-import json
-from vosk import Model, KaldiRecognizer, SetLogLevel 
-SetLogLevel(-1)
+import os 
+from pydub import AudioSegment
+import speech_recognition as sr
+from pydub.silence import split_on_silence
 
-modelo = Model("model")
+recognizer = sr.Recognizer()
 
-def fala_para_texto(arquivo):
-  
-    with wave.open(arquivo, "rb") as arq:
-        rec = KaldiRecognizer(modelo, arq.getframerate())            
-        while True:
-            data = arq.readframes(4000)
-            rec.AcceptWaveform(data)
-            if len(data) == 0:
-                break
-                        
-    resultado = json.loads(rec.FinalResult())
-    return resultado["text"]    
+def load_chunks(filename):
+    long_audio = AudioSegment.from_mp3(filename)
+    audio_chunks = split_on_silence(
+        long_audio, min_silence_len=1800,
+        silence_thresh=-17
+    )
+    return audio_chunks
 
-if __name__ == "__main__":
-    print(fala_para_texto("test.wav")) 
+for audio_chunk in load_chunks('audios/sample.mp3'):
+    audio_chunk.export("temp", format="wav")
+    with sr.AudioFile("temp") as source:
+        audio = recognizer.listen(source)
+        try:
+            text = recognizer.recognize_google(audio)
+            print("Chunk : {}".format(text))
+        except Exception as ex:
+            print("Error occured")
+            print(ex)
+
+print("++++++")
