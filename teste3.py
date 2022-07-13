@@ -18,6 +18,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 
+test_google = "https://www.google.com/recaptcha/api2/demo"
+url_principal = "https://web.trf3.jus.br/consultas/Internet/ConsultaReqPag"
+
 def delay():
     time.sleep(random.randint(2,3))
 
@@ -26,10 +29,9 @@ options.add_argument("start-minimized")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
 driver = webdriver.Chrome(options=options, executable_path=os.getcwd()+'\\chrome_driver\\chromedriver.exe')
-#driver.get("https://web.trf3.jus.br/consultas/Internet/ConsultaReqPag")
 
-# Recaptcha teste
-driver.get("https://www.google.com/recaptcha/api2/demo")
+# get link
+driver.get(test_google)
 
 # Switch  to recaptcha frame
 frames=driver.find_elements(By.TAG_NAME,"iframe")
@@ -71,21 +73,19 @@ else:
     src = driver.find_element(By.ID,"audio-source").get_attribute("src")
     print("[INFO] Audio src: %s"%src)
 
-
-    #download the mp3 audio file from the souce
-    urllib.request.urlretrieve(src, os.getcwd()+"\\audios\\sample.mp3")
-
     try:
+        #download the mp3 audio file from the souce
+        urllib.request.urlretrieve(src, os.getcwd()+"\\audios\\sample.mp3")
         sound = pydub.AudioSegment.from_mp3(os.getcwd()+"\\audios\\sample.mp3")
+        sound.export(os.getcwd()+"\\audios\\sample.wav", format="wav")
+        sample_audio = sr.AudioFile(os.getcwd()+"\\audios\\sample.wav")
+        r = sr.Recognizer()
     except Exception as error:
         print('Message error', error)
+    
 
-    sound.export(os.getcwd()+"\\audios\\sample.wav", format="wav")
-    sample_audio = sr.AudioFile(os.getcwd()+"\\audios\\sample.wav")
-    r = sr.Recognizer()
     with sample_audio as source:
         audio = r.record(source)
-    
 
     #translat audio to text with google voice recognition
     key = r.recognize_google(audio)
