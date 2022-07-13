@@ -1,5 +1,4 @@
 # recaptcha libraries
-from logging import exception
 import speech_recognition as sr
 # import pydub
 import pydub
