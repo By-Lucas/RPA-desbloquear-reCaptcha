@@ -1,4 +1,5 @@
 # recaptcha libraries
+from logging import exception
 import speech_recognition as sr
 # import pydub
 import pydub
@@ -70,14 +71,21 @@ else:
     src = driver.find_element(By.ID,"audio-source").get_attribute("src")
     print("[INFO] Audio src: %s"%src)
 
+
     #download the mp3 audio file from the souce
     urllib.request.urlretrieve(src, os.getcwd()+"\\audios\\sample.mp3")
-    sound = pydub.AudioSegment.from_mp3(os.getcwd()+"\\audios\\sample.mp3")
+
+    try:
+        sound = pydub.AudioSegment.from_mp3(os.getcwd()+"\\audios\\sample.mp3")
+    except Exception as error:
+        print('Message error', error)
+
     sound.export(os.getcwd()+"\\audios\\sample.wav", format="wav")
     sample_audio = sr.AudioFile(os.getcwd()+"\\audios\\sample.wav")
     r = sr.Recognizer()
     with sample_audio as source:
         audio = r.record(source)
+    
 
     #translat audio to text with google voice recognition
     key = r.recognize_google(audio)
