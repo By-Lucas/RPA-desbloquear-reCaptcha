@@ -32,6 +32,9 @@ driver = webdriver.Chrome(options=options, executable_path=os.getcwd()+'\\chrome
 # get link
 driver.get(test_google)
 
+
+
+############## PARTE PARA DESBLOQUEIO DO RECAPTCHA ###########################
 # Switch  to recaptcha frame
 frames=driver.find_elements(By.TAG_NAME,"iframe")
 driver.switch_to.frame(frames[0]);
