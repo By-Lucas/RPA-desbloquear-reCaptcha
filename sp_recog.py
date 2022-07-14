@@ -83,7 +83,6 @@ else:
     sample_audio = sr.WavFile(path_to_wav)
     print('Passou 2')
 
-
     delay()
     r = sr.Recognizer()
     with sample_audio as source:

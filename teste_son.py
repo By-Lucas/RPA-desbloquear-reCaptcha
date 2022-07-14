@@ -4,23 +4,23 @@ import speech_recognition as sr
 import speech_recognition
 
 src = os.getcwd()+"\\audios\\sample.mp3"
-test = os.getcwd()+"\\audios\\teste.wav"
+test = os.getcwd()+"\\audios\\sample.wav"
 
 # convert wav to mp3  
 song  = pydub.AudioSegment.from_mp3(src)
 song.export(test, format="wav")
 
-sample_audio = sr.WavFile('audios/teste.wav')
-
+# Creating a recognition object
 r = sr.Recognizer()
-with sr.WavFile(test) as src:
-    print(dir(src))              # use "test.wav" as the audio source
-    audio = r.record(src)                        # extract audio data from the file
+
+# Extracting the audio & removing ambient noice
+audio_file = sr.WavFile(test)
+with audio_file as source:
+    r.adjust_for_ambient_noise(source)
+    audio = r.record(source)
     print('passou')
-try:
-    list = r.recognize(audio,True)                  # generate a list of possible transcriptions
-    print("Possible transcriptions:")
-    for prediction in list:
-        print(" " + prediction["text"] + " (" + str(prediction["confidence"]*100) + "%)")
-except LookupError:                                 # speech is unintelligible
-    print("Could not understand audio")
+
+
+# Recognize the audio
+tradu = r.recognize_google(audio)
+print("[INFO] Audio traduzido: %s" %tradu)
