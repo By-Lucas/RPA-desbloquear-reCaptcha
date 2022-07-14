@@ -30,7 +30,7 @@ options.add_experimental_option('useAutomationExtension', False)
 driver = webdriver.Chrome(options=options, executable_path=os.getcwd()+'\\chrome_driver\\chromedriver.exe')
 
 # get link
-driver.get(url_principal)
+driver.get(test_google)
 
 # Switch  to recaptcha frame
 frames=driver.find_elements(By.TAG_NAME,"iframe")
