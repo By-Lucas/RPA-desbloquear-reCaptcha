@@ -13,7 +13,7 @@ def load_chunks(filename):
     )
     return audio_chunks
 
-for audio_chunk in load_chunks('audios/audio.mp3'):
+for audio_chunk in load_chunks('audios/sample.mp3'):
     audio_chunk.export("temp", format="wav")
     with sr.AudioFile("temp") as source:
         audio = recognizer.listen(source)
