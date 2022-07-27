@@ -32,8 +32,6 @@ driver = webdriver.Chrome(options=options, executable_path=os.getcwd()+'\\chrome
 # get link
 driver.get(url_principal)
 
-
-
 ############## PARTE PARA DESBLOQUEIO DO RECAPTCHA ###########################
 # Switch  to recaptcha frame
 frames=driver.find_elements(By.TAG_NAME,"iframe")
@@ -57,7 +55,6 @@ driver.switch_to.default_content()
 frames=driver.find_elements(By.TAG_NAME,"iframe")
 driver.switch_to.frame(frames[-1])
 delay()
-
 
 #Information error
 if not driver.find_element(By.XPATH, "/html/body/div/div/div[3]/div/button"):
