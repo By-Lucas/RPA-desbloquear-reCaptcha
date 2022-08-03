@@ -1,4 +1,4 @@
-#WebScraping - Desbloquear Capthca
+# WebScraping - Desbloquear Capthca
 
 ## Automação feita para desbloquear reCaptchas.
 
